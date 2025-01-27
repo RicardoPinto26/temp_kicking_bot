@@ -2,11 +2,11 @@ import os
 import discord
 from discord.ext import commands
 
-# Enable intents for tracking voice states and members
+# Enable intents
 intents = discord.Intents.default()
-intents.voice_states = True
+intents.voice_states = True  # Needed for tracking voice channel changes
 intents.guilds = True
-intents.members = True  # Needed for kick permissions
+intents.members = True  # Required for disconnecting users
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
@@ -16,26 +16,26 @@ MUSIC_BOT_ID = 412347257233604609  # Jockie Music bot's ID
 TARGET_USER_ID = 192010521363349504  # Pancua's ID
 
 # Toggle state (default: enabled)
-kicking_enabled = True
+disconnecting_enabled = True
 
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
-@bot.command(name="togglekick")
+@bot.command(name="toggledisconnect")
 @commands.has_permissions(administrator=True)  # Only admins can use it
-async def toggle_kicking(ctx):
-    global kicking_enabled
-    kicking_enabled = not kicking_enabled  # Toggle state
-    status = "enabled" if kicking_enabled else "disabled"
-    await ctx.send(f"Auto-kick feature is now **{status}**.")
+async def toggle_disconnect(ctx):
+    global disconnecting_enabled
+    disconnecting_enabled = not disconnecting_enabled  # Toggle state
+    status = "enabled" if disconnecting_enabled else "disabled"
+    await ctx.send(f"Auto-disconnect feature is now **{status}**.")
 
 @bot.event
 async def on_voice_state_update(member, before, after):
     """Triggers when a user joins, leaves, or changes voice state"""
-    global kicking_enabled
+    global disconnecting_enabled
 
-    if not kicking_enabled:
+    if not disconnecting_enabled:
         return  # Don't do anything if the feature is disabled
 
     if member.id == TARGET_USER_ID and after.channel:  # If Pancua joins a channel
@@ -44,10 +44,10 @@ async def on_voice_state_update(member, before, after):
             jockie = guild.get_member(MUSIC_BOT_ID)
             if jockie and jockie.voice and jockie.voice.channel == after.channel:
                 try:
-                    await jockie.kick(reason=f"Kicked because {member.name} joined.")
-                    print(f"Kicked Jockie Music because {member.name} joined {after.channel.name}.")
+                    await jockie.move_to(None)  # Disconnect Jockie Music from voice
+                    print(f"Disconnected Jockie Music because {member.name} joined {after.channel.name}.")
                 except discord.Forbidden:
-                    print("Bot does not have permission to kick Jockie Music!")
+                    print("Bot does not have permission to disconnect Jockie Music!")
                 except Exception as e:
                     print(f"Error: {e}")
 
