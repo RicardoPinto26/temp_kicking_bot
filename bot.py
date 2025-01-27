@@ -41,7 +41,7 @@ async def on_voice_state_update(member, before, after):
             if jockie and jockie.voice and jockie.voice.channel == after.channel:
                 try:
                     # Find a text channel where the bot can send the message
-                    text_channel = discord.utils.get(guild.text_channels, name="bot-commands")  # Replace with the actual name of the channel
+                    text_channel = discord.utils.get(guild.text_channels, name="lixo-do-bot-privado")  # Replace with the actual name of the channel
 
                     if not text_channel:
                         text_channel = after.channel.guild.system_channel  # Use default system channel if no specific channel
