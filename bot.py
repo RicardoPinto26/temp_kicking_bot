@@ -6,7 +6,8 @@ from discord.ext import commands
 intents = discord.Intents.default()
 intents.voice_states = True  # Needed for tracking voice channel changes
 intents.guilds = True
-intents.members = True  # Required for disconnecting users
+intents.members = True  # Required to detect users
+intents.message_content = True  # Required for sending messages
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
