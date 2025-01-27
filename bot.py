@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # IDs (Replace with actual values)
 GUILD_ID = 722047722311516201  # Your Discord server ID
 MUSIC_BOT_ID = 412347257233604609  # Jockie Music bot's ID
-TARGET_USER_ID = 363016885325004800  # Pancua's ID
+TARGET_USER_ID = 293472385036845056  # Pancua's ID
 
 # Toggle state (default: enabled)
 disconnecting_enabled = True
