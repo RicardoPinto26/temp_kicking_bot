@@ -31,6 +31,15 @@ async def toggle_pause(ctx):
     status = "enabled" if pause_enabled else "disabled"
     await ctx.send(f"Auto-pause feature is now **{status}**.")
 
+async def send_as_webhook(channel, message):
+    """Creates a temporary webhook to send the message"""
+    try:
+        webhook = await channel.create_webhook(name="Music Control Webhook")
+        await webhook.send(content=message, username="Pancua")
+        await webhook.delete()
+    except Exception as e:
+        print(f"Error creating webhook: {e}")
+
 @bot.event
 async def on_voice_state_update(member, before, after):
     """Triggers when a user joins, leaves, or changes voice state"""
@@ -46,14 +55,14 @@ async def on_voice_state_update(member, before, after):
             if jockie and jockie.voice and jockie.voice.channel == after.channel:
                 try:
                     # Find a text channel where the bot can send the message
-                    text_channel = discord.utils.get(guild.text_channels, name="lixo-do-bot-privado")  # Replace with the actual name of the channel
+                    text_channel = discord.utils.get(guild.text_channels, name="bot-commands")  # Change to actual channel name
 
                     if not text_channel:
                         text_channel = after.channel.guild.system_channel  # Use default system channel if no specific channel
 
                     if text_channel:
-                        await text_channel.send("m!pause")
-                        print(f"Sent 'm!pause' because {member.name} joined {after.channel.name}.")
+                        await send_as_webhook(text_channel, "m!pause")  # Send message via webhook
+                        print(f"Sent 'm!pause' via webhook because {member.name} joined {after.channel.name}.")
                 except Exception as e:
                     print(f"Error sending m!pause: {e}")
 
