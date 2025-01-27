@@ -4,9 +4,10 @@ from discord.ext import commands
 
 # Enable intents
 intents = discord.Intents.default()
-intents.voice_states = True  # Needed for tracking voice channel changes
+intents.voice_states = True  # Required for tracking voice channel changes
 intents.guilds = True
 intents.members = True  # Required for disconnecting users
+intents.message_content = True  # Required for processing commands
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
