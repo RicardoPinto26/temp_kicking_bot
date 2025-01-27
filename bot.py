@@ -11,9 +11,9 @@ intents.members = True  # Needed for kick permissions
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # IDs (Replace with actual values)
-GUILD_ID = 123456789012345678  # Your Discord server ID
-MUSIC_BOT_ID = 234395307759108106  # Jockie Music bot's ID
-TARGET_USER_ID = 987654321098765432  # Pancua's ID
+GUILD_ID = 722047722311516201  # Your Discord server ID
+MUSIC_BOT_ID = 412347257233604609  # Jockie Music bot's ID
+TARGET_USER_ID = 293472385036845056  # Pancua's ID
 
 # Toggle state (default: enabled)
 kicking_enabled = True
